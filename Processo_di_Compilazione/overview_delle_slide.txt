@@ -1,0 +1,8 @@
+PREPROCESSORE
+
+#include <stdio.h>
+Direttiva di preprocessore: include le dichiarazioni delle funzioni di libreria per l’input/output
+    –>  Il linker collegherà dichiarazioni a definizioni
+        Inserisce il codice oggetto delle funzioni chiamate per produrre l’eseguibile finale auto-contenuto. Se il nome della funzione è scritto in modo errato, il linker
+        produrrà un errore (funzione non trovata nella libreria)
+

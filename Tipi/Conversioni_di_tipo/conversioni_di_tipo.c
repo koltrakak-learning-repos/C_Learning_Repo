@@ -22,9 +22,10 @@ int main() {
     x = y+x;
     printf("char -> int: %d\n", x);
     r = y;
+    r += 0.1;
     printf("char -> int -> double: %f\n", r);
     x = r;
-    printf("troncamento: %d\n", x);
+    printf("double -> int; troncamento: %d\n", x);
 
     float f=2.71F; 
     double d=3.1415161718;

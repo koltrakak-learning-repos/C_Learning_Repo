@@ -1,0 +1,13 @@
+Una variabile è un astrazione di una cella di memoria. 
+Formalmente, è un simbolo associato a un indirizzo fisico (L-value, immutabile) che denota un valore (R-value, mutabile).
+    -> la definizione di una variabile comporta quindi allocazione di memoria necessaria a mantenerne il valore
+    -> variabili LOCALI definite ma non inizializzate mantengono il valore presente nell'indirizzo di memoria in cui sono state allocate(valore spazzatura casuale).
+        -> variabili globali e statiche invece vengono inizializzate "allo zero del loro tipo": '\0' per stringhe, 0 per interi, ecc...
+
+CARATTERISTICHE:
+- campo d’azione(scope): è la parte di programma in cui la variabile è nota e può essere manipolata
+- tempo di vita: è l’intervallo di tempo in cui rimane valida l’associazione simbolo/indirizzo (nome -> L-value)
+- tipo: specifica la classe di valori che la variabile può assumere (e quindi gli operatori applicabili)
+- valore
+
+

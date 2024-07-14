@@ -1,0 +1,29 @@
+A default, C vede le informazioni lette/scritte da/verso i dispositivi standard di I/O come FILE SEQUENZIALI, cioè sequenze di caratteri/byte detti stream.
+Gli stream di input/output possono contenere degli EOL (end of line), cioè dei caratteri di fine linea. Essi variano da sistema a sistema(LF e CR).
+Gli stream inoltre utilizzano un particolare codice di controllo (tipicamente -1) per indicare la fine del contenuto. Questo codice prende il nome di EOF e NON è un 
+carattere ma appunto un codice di controllo. (Implementato come macro in stdio.h)
+
+LETTURA CON FORMATO
+scanf() legge una serie di valori in base alle specifiche contenute in <stringa-formato> e memorizza i valori letti nelle variabili.
+-> Restituisce il numero di valori letti e memorizzati, oppure il codice EOF in caso di end of file.
+
+Regole:
+• lo spazio bianco viene considerato un separatore e viene scartato -> %d%d accetta "1 1" allo stesso modo di "1    1" 
+• Caratteri separatori:
+    – Se legge un formato diverso da %c, ignora i caratteri separatori (spazi, tab, invio, etc.)
+    – Se legge un formato %c, allora restituisce anche i caratteri separatori siccome anche loro sono caratteri
+
+Problema comune con caratteri non consumati:
+L' I/O è bufferizzato, in particolare nel caso dell'input i caratteri letti da tastiera sono memorizzati in un buffer.
+Siccome la scanf non consuma in caratteri di fine linea, essi rimangono nel buffer e se successivamente si fa una lettura che non considera questi caratteri come 
+separatori, come nel caso di lettura di caratteri/stringhe, queste lettura successive leggeranno solamente questo carattere di fine linea e il programma proseguirà.
+Per questo motivo è bene consumare manualmente i caratteri di fine linea con getchar() oppure con scanf("%*c") ("*" è il simbolo di soppressione di assegnazione indica
+che il prossimo carattere di input deve essere letto ma non assegnato a nessuna variabile). 
+
+NB: Questo problema si verifica solo con la lettura di caratteri. Negli altri casi il/i carattere/i nel buffer è/sono considerato/i come separatore/i e scartato/i.
+
+scanf() è deprecata dato che è unsafe. Meglio scanf_s() in cui si specificano anche il numero di caratteri da leggere (uguale a scanf per i numeri)
+
+SCRITTURA CON FORMATO
+printf() scrive una serie di valori in base alle specifiche contenute in <stringa-formato>
+-> Restituisce il numero di caratteri scritti
