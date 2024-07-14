@@ -1,0 +1,46 @@
+In C è possibile combinare tra di loro operandi di tipo diverso. Si distingue tra:
+	– espressioni omogenee: tutti gli operandi sono dello stesso tipo
+	– espressioni eterogenee: gli operandi sono di tipi diversi
+	
+Come è possibile gestire espressioni che coinvolgono tipi di dati differenti?
+	->  La conversione di tipo permette di convertire una variabile da un tipo ad un altro tipo.
+	
+In C abbiamo due differenti modalità di conversione di tipo:
+	• Implicita (coercion): effettuata dal compilatore in presenza di espressioni eterogenee
+	• Esplicita (typecasting): ottenuta dal programmatore utilizzando uno specifico operatore (cast)
+	
+Quali espressioni eterogenee possono essere eseguite?
+	-> Regola adottata in C: sono eseguibili le espressioni eterogenee in cui tutti i tipi referenziati risultano COMPATIBILI
+	
+Che cosa significa compatibili?
+	-> La compatibilità di tipo consiste nella possibilità di usare, entro certi limiti, oggetti di un tipo al posto di oggetti di un altro tipo.
+	   In particolare, un tipo T1 è compatibile con un tipo T2 se il dominio D1 di T1 è contenuto nel dominio D2 di T2:
+		– int è compatibile con float perché Z è sottoinsieme di R
+		– ma float non è compatibile con int
+	   ESEMPI:
+	   	• 3 / 4.2;	è una divisione fra reali, in cui il primo operando è convertito automaticamente da int a double
+		• 3 % 4.2;	è una operazione non ammissibile, perché 4.2 non può essere convertito in int
+
+---CONVERSIONI DI TIPO IMPLICITE
+In pratica, in una espressione eterogenea, il tipo di dimensione minore viene convertito in quello di dimensione maggiore.
+Data una espressione "x op y":
+	– 1. Ogni variabile di tipo char o short viene convertita nel tipo int; (anche se il risultato potrebbe essere contenuto in uno short)
+	– 2. Se dopo l’esecuzione del passo 1 l'espressione è ancora eterogenea, rispetto alla seguente gerarchia: "int < long < float < double < long double"
+	     si converte temporaneamente l'operando di tipo inferiore al tipo superiore (promotion)
+	– 3. A questo punto l'espressione è omogenea e viene eseguita l'operazione specificata. Il risultato è di tipo uguale a quello prodotto dall'operatore effettivamente eseguito
+	     (in caso di overloading, quello più alto gerarchicamente)
+
+	ESEMPIO:
+	int x;
+	char y;
+	double r;
+	(x+y) / r; 	-> y viene promosso ad intero -> x+y ritorna un intero -> x+y viene promosso a double -> la differenza ritorna un double 
+
+---CONVERSIONI DI TIPO IN ASSEGNAMENTO
+In un assegnamento, l'identificatore di variabile e l’espressione devono essere dello stesso tipo! Nel caso di tipi diversi, se possibile si effettua la conversione
+implicita, altrimenti l’assegnamento può generare perdita di informazione (troncamenti o overflow).
+In generale, negli assegnamenti sono automatiche le conversioni di tipo che non provocano perdita d’informazione. Espressioni che possono provocare perdita di
+informazioni non sono però illegali.
+
+---CONVERSIONI DI TIPO ESPLICITE
+In qualunque espressione è possibile forzare una particolare conversione utilizzando l'operatore di cast: ( <tipo> ) <espressione>

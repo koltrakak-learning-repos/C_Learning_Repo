@@ -1,0 +1,16 @@
+Specificatori di tipo:
+	– void: indefinito o non specificato
+	– char: caratteri
+	– int: numeri interi
+	– float: numeri reali (decimali) a precisione singola
+	– double: numeri decimali a precisione doppia
+	
+	
+• Modificatori di tipo (ESCLUSIVAMENTE PER NUMERI INTERI):
+	– short: riduce il numero di valori memorizzabili
+	– long: aumenta il numero di valori memorizzabili
+	– signed: dato con segno
+	– unsigned: dato senza segno
+	
+In generale, a default, i tipi SONO SIGNED!
+Ad eccezione di char che può essere signed o unsigned a default dipendentemente dal compilatore C installato e dall'architettura della macchina
