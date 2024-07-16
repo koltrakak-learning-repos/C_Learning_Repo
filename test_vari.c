@@ -1,14 +1,19 @@
-#include<stdio.h>
+#include <stdio.h>
 
-int main() {
-    int a = 1;
-    printf("sono fuori dal blocco, a vale: %d\n", a);
-
-    {
-        int a = 3;
-        printf("sono dentro ad un altro blocco, a vale: %d\n", a);
+// Definizione della funzione esterna
+void funzione_esterna() {
+    // Tentativo di definizione di una funzione interna (Non consentito, in teoria)
+    void funzione_interna() {
+        printf("Chiamata alla funzione interna\n");
     }
 
-    //char a = 62; non posso definire la stessa variabile due volte nello stesso blocco
+    // Chiamata alla funzione interna
+    funzione_interna();
+}
+
+int main() {
+    // Chiamata alla funzione esterna
+    funzione_esterna();
+
     return 0;
 }

@@ -1,0 +1,10 @@
+COMUNICAZIONE TRAMITE AMBIENTE GLOBALE
+Una procedura può anche comunicare con il cliente mediante aree dati (variabili) globali
+
+Le variabili globali in C:
+    • sono allocate nell’area dati globale (fuori da ogni funzione)
+    • esistono prima della chiamata del main (quindi prima dell’esecuzione del programma).
+    • Il tempo di vita si estende per tutta la durata del programma
+    • sono visibili, previa dichiarazione extern, in tutti i file dell’applicazione
+    • sono inizializzate automaticamente a 0 salvo diversa indicazione
+    • possono essere nascoste in una funzione da una variabile locale omonima

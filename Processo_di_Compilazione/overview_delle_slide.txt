@@ -1,8 +1,29 @@
-PREPROCESSORE
+---PREPROCESSORE
+Agisce prima del compilatore e processa direttamente il file sorgente.
+Esegue direttive possibilmente contenute nel file sorgente che iniziano con #, le direttive possono:
+    - includere altre porzioni di testo prese da altri file
+    - effettuare ricerche e sostituzioni (più o meno sofisticate, ad es. parametriche) sul testo
+    - inserire o sopprimere parti del testo a seconda del verificarsi di certe condizioni
+Il compilatore riceve una versione “riveduta” del file sorgente.
 
-#include <stdio.h>
-Direttiva di preprocessore: include le dichiarazioni delle funzioni di libreria per l’input/output
-    –>  Il linker collegherà dichiarazioni a definizioni
-        Inserisce il codice oggetto delle funzioni chiamate per produrre l’eseguibile finale auto-contenuto. Se il nome della funzione è scritto in modo errato, il linker
-        produrrà un errore (funzione non trovata nella libreria)
+DIRETTIVE:
+    - #include <libreria.h>/"miofile.h"
+      Include il contenuto del file specificato esattamente nella posizione in cui si trova la direttiva stessa.
+      La differenza tra le due scritture <> e "" impatta solo in quale direttorio il file incluso verrà cercato dal preprocessore:
+        - con <> il file verrà cercato nella directory della standard library
+        - con "" verrà cercato nella directory corrente.
+
+      NB: Il linker collegherà dichiarazioni a definizioni.
+      Inserisce il codice oggetto delle funzioni chiamate per produrre l’eseguibile finale auto-contenuto. Se il nome della funzione è scritto in modo errato, il linker
+      produrrà un errore (funzione non trovata nella libreria)
+    
+    - #define
+      Permette di definire delle macro.
+      Sintassi: #define <Identificatore> <testo>
+      Effetto: definisce una regola di ricerca e sostituzione, ogni occorrenza di <Identificatore> verrà sostituita da <testo> 
+      Scopo: definire costanti simboliche (per convenzione, Identificatore si tende a scrivere con tutte maiuscole)
+
+      Attenzione: nell’effettuare ricerche e sostituzioni, il preprocessore si limita a sostituire testo con altro testo.
+                  Non effettua controlli di nessun tipo, né può farli: non è un compilatore, e dunque non conosce la sintassi del C.
+                  Macro sbagliate possono produrre risultati privi di senso.
 

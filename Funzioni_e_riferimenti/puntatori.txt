@@ -1,0 +1,32 @@
+Un puntatore è essenzialmente una variabile che contiene l'indirizzo di memoria di un'altra variabile.
+Essendo i puntatori delle variabili anch'essi risiedono in specifici indirizzi di memoria. I puntatori sono quindi un caso particolare di variabile in cui sia il R-value che
+il L-value sono indirizzi. Per questo motivo è possibile puntare ad un puntatore che punta ad un puntatore ecc...
+
+Esistono puntatori specifici per ogni tipo di dato da puntare (int *, float *, char *, ...). Il tipo di un puntatore è importante per il compilatore per sapere quanto
+spazio deve essere letto o scritto quando si accede ai dati tramite il puntatore. 
+Un puntatore a T può contenere solo l’indirizzo di variabili di tipo T: puntatori a tipi diversi sono incompatibili tra loro!
+NB: Questo non significa che i vari tipi di puntatori siano inerentemente diversi, essi infatti sono tutti indirizzi di memoria con la stessa dimensione (4 byte su sistemi
+a 32bit, 8 byte per 64bit). Il tipo di dato a cui un puntatore fa riferimento determina come il compilatore interpreta i dati in quell'indirizzo di memoria, per questo 
+motivo puntatori di tipi diversi sono incompatibili.
+
+E’ anche possibile specificare puntatori generici per cui non si specifica il tipo: void * p;
+Necessario poi un cast ad un tipo di puntatore specifico al momento della dereferenziazione, altrimenti non si saprebbe come maneggare la memoria per recuperare i valori
+( per esempio (int *) ).
+I puntatori generici (void *) sono utilizzati per puntare a un'area di memoria senza specificare il tipo di dato che risiede in quell'area.
+Sono utili quando è necessario lavorare con dati di tipo sconosciuto o variabile.
+Essi forniscono una grande flessibilità, ma richiedono attenzione particolare per quanto riguarda il casting al tipo corretto quando si accede ai dati puntati.
+Questo approccio è comunemente usato in funzioni di libreria in cui si deve lavorare con diversi tipi di dati. (ad esempio, funzioni di libreria per la gestione della memoria
+come malloc, free, memcpy, ecc.).
+
+La costante NULL:
+    • E’ una macro definita in stdlib.h
+    • Rappresenta un indirizzo di memoria non accessibile, il puntatore con valore NULL non punta a nulla.
+    • Equivalenza fra la costante 0 e NULL
+
+NB: Dereferenziare puntatori non inizializzati o inizializzati in modo scorretto o con valore NULL per cui non puntano ad una cella di memoria effettiva, causa comportamento
+non definito.
+
+ATTENZIONE ALLA PRECEDENZA DEGLI OPERATORI DURANTE LA DEREFERENZIAZIONE!!
+per esempio: (*p)--; è diverso da *p--.
+Il primo decrementa il valore puntato da p.
+Il secondo decrementa il valore del puntatore! (essendo un decremento postfisso si nota solo dalle istruzioni successive in poi, nell'istruzione corrente equivale a *)

@@ -1,7 +1,8 @@
 Una variabile è un astrazione di una cella di memoria. 
 Formalmente, è un simbolo associato a un indirizzo fisico (L-value, immutabile) che denota un valore (R-value, mutabile).
     -> la definizione di una variabile comporta quindi allocazione di memoria necessaria a mantenerne il valore
-    -> variabili LOCALI definite ma non inizializzate mantengono il valore presente nell'indirizzo di memoria in cui sono state allocate(valore spazzatura casuale).
+    -> variabili LOCALI definite ma non inizializzate mantengono il valore presente nell'indirizzo di memoria in cui sono state allocate(valore spazzatura casuale)
+       Anche nel caso di array (e structs?).
         -> variabili globali e statiche invece vengono inizializzate "allo zero del loro tipo": '\0' per stringhe, 0 per interi, ecc...
 
 CARATTERISTICHE:

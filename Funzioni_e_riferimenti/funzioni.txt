@@ -1,0 +1,33 @@
+Riassunto di un po' di slide:
+All’atto dell’invocazione di una funzione:
+– si crea una istanza del servitore( record di attivazione)
+– si alloca la memoria per i parametri e le eventuali variabili locali
+– si trasferiscono i parametri al servitore
+– si trasferisce il controllo al servitore
+– si esegue il codice della funzione
+
+Al momento dell’invocazione di una funzione, viene creata una struttura dati che contiene i binding dei parametri e degli identificatori definiti localmente 
+alla funzione detta record di attivazione.
+
+RECORD DI ATTIVAZIONE
+È il “mondo della funzione”, contiene tutto ciò che ne caratterizza l’esistenza:
+    – i parametri ricevuti
+    – le variabili locali
+    – l’indirizzo di ritorno (Return Address RA) che indica il punto a cui tornare (nel codice del cliente) al termine della funzione, per permettere al cliente
+      di proseguire una volta che la funzione termina. 
+    – un collegamento al record di attivazione del cliente (Dynamic Link DL)
+
+Il record d'attivazione nasce e muore con la chiamata di funzione: 
+    - è creato al momento della invocazione di una funzione
+    - permane per tutto il tempo in cui la funzione è in esecuzione
+    - è distrutto (deallocato) al termine dell’esecuzione della funzione stessa
+Ad ogni chiamata di funzione viene creato un nuovo record, specifico per quella chiamata di quella funzione
+La dimensione del record di attivazione:
+    - varia da una funzione all’altra
+    - per una data funzione, è fissa e calcolabile a priori
+
+Funzioni che chiamano altre funzioni danno luogo a una sequenza di record di attivazione, allocati secondo l’ordine delle chiamate, deallocati in ordine inverso.
+La sequenza dei link dinamici costituisce la cosiddetta catena dinamica, che rappresenta la storia delle attivazioni (“chi ha chiamato chi”).
+
+Per catturare la semantica delle chiamate annidate, l’area di memoria in cui vengono allocati i record di attivazione deve essere gestita come una PILA/STACK
+(Una struttura dati gestita con politica LIFO)
