@@ -1,0 +1,51 @@
+Una struttura (record in alcuni linguaggi) è una collezione finita di variabili non necessariamente dello stesso tipo, ognuna identificata da un nome.
+
+esempi di sintassi:
+    struct punto {      -> è il tipo
+        int x, y;
+    } p1, p2;           -> è la dichiarazione di variabili di questo tipo
+
+    - Si può anche dichiarare il nuovo tipo e utilizzarlo successivamente anteponendo la keyword struct alla dichiarazione:
+        struct punto {      
+            int x, y;       
+        };                  
+
+        struct punto p3;            
+
+    - I valori si inizializzano con le graffe:
+        struct punto p4 = {10, 41};
+    
+    - Si possono innestare le strutture:
+        struct linea {
+            struct punto coord1;
+            struct punto coord2;
+        } l1, l2 ;
+
+    - NB: si può evitare di utilizzare la keyword struct ogni volta se si definisce la struttura come nuovo tipo attraverso la keyword typedef:
+            typedef struct Person {
+                char name[50];
+                int age;
+            } Person;
+
+            Person person1;
+            Person person2;
+          
+          Con typedef, viene creato un alias per il tipo di struttura, in questo caso Person è un alias per struct Person {...}       
+
+    - Più in generale, in C, l’utente può introdurre nuovi tipi tramite una definizione di tipo (typedef).
+      La definizione associa a un identificatore (nome del tipo) un tipo di dato.
+      Linguaggio C consente in particolare di:
+        - ridefinire tipi già esistenti:            typedef int myInt
+        - definire dei nuovi tipi strutturati:      esempio struct; char msg1[20], msg2[20]; typedef char string[20] (nota come la dimensione dell'array vada dopo)
+        - definire dei nuovi tipi enumerativi: (guarda file a parte)
+
+IMPORTANTE:
+    - In memoria i campi di una struttura sono allocati in modo contiguo e nello stesso ordine in cui sono stati dichiarati
+    - L’indirizzo di memoria di una variabile di tipo struct coincide con l’indirizzo di memoria del suo primo membro.
+    - Possiamo verificare la dimensione in byte di una struttura utilizzando l’operator sizeof
+    - A differenza di quanto accade con gli array, il nome della struttura rappresenta la struttura nel suo complesso!
+      Questo significa che è possibile:
+      - assegnare una struttura a un’altra (copia!)
+      - che una funzione restituisca una struttura (restituzione di una copia!)
+      - passare una struttura come parametro a una funzione (passaggio di una copia!)
+    

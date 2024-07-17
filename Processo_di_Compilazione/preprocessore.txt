@@ -26,4 +26,3 @@ DIRETTIVE:
       Attenzione: nell’effettuare ricerche e sostituzioni, il preprocessore si limita a sostituire testo con altro testo.
                   Non effettua controlli di nessun tipo, né può farli: non è un compilatore, e dunque non conosce la sintassi del C.
                   Macro sbagliate possono produrre risultati privi di senso.
-

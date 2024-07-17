@@ -1,0 +1,15 @@
+COSTO COMPUTAZIONALE
+Def: indichiamo con f(n) la quantità di risorse (tempo di esecuzione, oppure occupazione di memoria) richiesta da un algoritmo su input di dimensione n, operante su una
+macchina a registri. Il costo computazionale di un'algoritmo è equivalente ad f(n).
+-> Siamo interessati a studiare l’ordine di grandezza di f(n) ignorando le costanti moltiplicative e termini di ordine inferiore!
+-> Che cos'è l'ordine di grandezza di una funzione?
+   l'ordine di grandezza di una funzione è un concetto usato in analisi asintotica per descrivere il comportamento di una funzione quando l'argomento tende a valori
+   estremi, come l'infinito.
+   In informatica, questo concetto è particolarmente importante nell'analisi degli algoritmi, dove si vuole capire come cresce il tempo di esecuzione o l'uso della memoria
+   in relazione alla dimensione dell'input
+
+-> come mai siamo interessati a studiare l’ordine di grandezza di f(n) ignorando le costanti moltiplicative e termini di ordine inferiore? Rispondiamo con una domanda:
+   Consideriamo due algoritmi A e B che risolvono lo stesso problema.
+      Sia f_a(n) = 10^3*n il costo computazionale di A.
+      Sia f_n (n) = 10^(-3)*n^2 il costo computazionale di B.
+   Quale dei due è preferibile?

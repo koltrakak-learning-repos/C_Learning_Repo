@@ -1,0 +1,50 @@
+Un array è una collezione finita di N celle dello stesso tipo disposte in locazioni di memoria successive e contigue.
+La dimensione fisica N è decisa staticamente all’atto della definizione della variabile di tipo array. Questo non significa che si debbano per forza usare sempre tutte.
+La dimensione logica di un array (porzione di array realmente utilizzata) può essere inferiore alla sua dimensione fisica e spesso dipende dai dati d’ingresso.
+
+Più nello specifico In C un array è in realtà un puntatore che punta a un’area di memoria pre-allocata, di dimensione prefissata.
+Pertanto, il nome dell’array è un sinonimo per il suo indirizzo iniziale -> array == &array[0]. 
+
+In questo senso per gli array le quadre sono un operatore di dereferencing, infatti:
+    • L’operatore *, applicato a un puntatore, accede alla variabile da esso puntata
+    • L’operatore [], applicato a un nome di array e a un intero i, accede alla i-esima variabile dell’array 
+
+ARITMETICA DEI PUNTATORI
+Per quanto detto fino ad ora, gli operatori * e [] sono intercambiabili!
+Vale:
+    *v == v[0]
+    *(v+1) == v[1]
+    *(v+i) == v[i]
+
+Espressioni della forma pointer+i vanno sotto il nome di aritmetica dei puntatori, e denotano l’indirizzo posto i celle dopo l’indirizzo denotato da pointer.
+NB: Celle, NON byte! 
+    L'aritmetica dei puntatori si basa sulle dimensioni del tipo a cui il puntatore si riferisce.
+    Quando si esegue un'operazione come pointer + i, dove pointer è un puntatore e i è un intero, il compilatore deduce la dimensione in byte delle celle  in base
+    al tipo di dati a cui il puntatore pointer è destinato.
+
+Sono consentiti anche:
+    • Assegnamento tra puntatori int *p,*q; p=q;
+    • Differenze tra puntatori p-q; Quando si sottraggono due puntatori dello stesso tipo, si ottiene il numero di elementi di quel tipo che separano i due puntatori.
+    Questa operazione è spesso utilizzata per calcolare la lunghezza di un array o per determinare la distanza tra due posizioni in memoria.
+
+Altre operazioni aritmetiche fra puntatori, come prodotti o somme, NON sono consentite: int *p, *q; p=p*2; q=q+p;
+
+Le operazioni sono corrette se i puntatori riferiscono lo STESSO TIPO (non tipi compatibili). Attenzione: comunque solo warning dal compilatore negli altri casi
+
+OSS: La variabile che denota l’array è assimilabile a un puntatore costante (mantenuto in modo simile a quanto fatto in altri linguaggi per variabili con valori non
+modificabili), mentre un normale puntatore può ovviamente cambiare di valore:
+    int *p, a[5];
+    p = a; //Ok!
+    a = p; //Errore!
+
+OSS: In C, il lower bound di un array è sempre 0, l’upper bound è la dimensione dell’array meno 1
+    • Upper e lower bound degli array non vengono verificati:
+        int i, a[4];
+        i = a[-2];  -> questo non genera errori di compilazione, solo a runtime
+    • Usando le proprietà di array e puntatori è possibile ottenere un “array” dove upper e lower bound sono diversi dal solito
+        int i, *p, a[5];
+        p = &a[2];      -> lowerbound=-2 ; upperbound=2
+        for (i = -2; i <= 2; i++)
+            p[i] = i;
+Grazie a questa proprietà si può realizzare 1-base indexing! (generalmente cambiare le regole del linguaggio è cosa sconsigliata, ma possibile).
+Più praticamente però modificando upper e lower bound si possono recuperare sotto-array/stringhe

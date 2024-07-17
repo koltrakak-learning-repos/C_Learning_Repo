@@ -1,0 +1,5 @@
+Una stringa di caratteri in C è un array di caratteri terminato dal carattere di fine stringa '\0’(codificato come 0 in codice ascii).
+Un vettore di N caratteri può dunque ospitare stringhe lunghe al più N-1 caratteri, perché una cella è destinata al terminatore '\0'.
+
+Un array di N caratteri può essere usato per memorizzare anche stringhe più corte di N-1. In questo caso, le celle oltre la k-esima (k essendo la lunghezza della stringa)
+sono logicamente vuote e non vanno considerate, ma fisicamente contengono un valore casuale se non un valori rimasti da operazioni precedenti.

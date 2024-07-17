@@ -1,0 +1,30 @@
+Un tipo enumerativo è un tipo di dato che consiste in un insieme ristretto di valori.
+Ogni elemento appartenente al tipo ha un proprio nome (identificatore). I nomi associati agli elementi del tipo sono trattati come costanti, chiamate costanti enumerative.
+I tipi enumerativi sono compatibili con un dato intero. La loro funzione è semplicemente quella di rendere più leggibile il codice.
+
+Un tipo enumerativo viene specificato tramite l’elenco dei valori che i dati di quel tipo possono assumere.
+Schema generale:
+    typedef enum { a1, a2, a3, ... , aN } EnumType;
+Analogamente alle strutture si può ripetere la parola chiave 'enum' al posto di definire un nuovo tipo:
+    enum Giorni{lu, ma, me, gi, ve, sa, dom};
+    enum Giorni Giorno;
+Oppure direttamente la definizione delle variabili:
+    enum {lu, ma, me, gi, ve, sa, dom} Giorno;
+
+Il compilatore associa a ciascun “identificativo di valore” a1, .., aN un numero naturale (0,1,...), che viene usato nella valutazione di espressioni con il nuovo tipo.
+
+Un “identificativo di valore” può comparire una sola volta nella definizione di un solo tipo, nello stesso scope di visibilità, altrimenti si ha ambiguità!
+Esempio:
+    typedef enum {lu, ma, me, gi, ve, sa, dom} Giorni;
+    typedef enum {lu, ma, me} PrimiGiorni;
+La definizione del secondo tipo enumerativo è scorretta, perché gli identificatori lu, ma, me sono già stati usati altrove.
+
+È possibile specificare esplicitamente i valori naturali (espressioni costante intere) cui associare i simboli a1,...,aN
+• qui, lu « 0, ma « 1, me « 2, ...
+    typedef enum {lu, ma, me, gi, ve, sa, dom} Giorni;
+• qui, invece, lu « 1, ma « 2, me « 3, …
+    typedef enum {lu=1, ma, me, gi, ve, sa, dom} Giorni;
+• qui, infine, l’associazione è data caso per caso
+    typedef enum { lu=1, ma, me=7, gi, ve, sa, dom} Giorni;
+E’ possibile avere costanti enumerative con lo stesso valore.
+Ogni assegnamento esplicito viene utilizzato come punto di partenza per gli assegnamenti successivi.

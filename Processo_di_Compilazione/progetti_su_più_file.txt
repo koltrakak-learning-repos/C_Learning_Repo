@@ -1,0 +1,36 @@
+DICHIARAZIONE VS DEFINIZIONE di FUNZIONI
+La definizione dice come è fatto il componente
+    • costituisce l ’effettiva realizzazione del componente
+    • NON può essere DUPLICATA
+    • La compilazione di una definizione genera il codice oggetto corrispondente alla funzione
+La dichiarazione di una funzione costituisce solo una specifica delle proprietà del componente
+    • Può essere duplicata senza problemi
+    • Un’applicazione può contenerne più di una
+    • La compilazione di una dichiarazione non genera alcun codice macchina
+
+Per strutturare un’applicazione su più file sorgente, occorre che ogni file possa essere compilato separatamente dagli altri. Successivamente avverrà il collegamento.
+Affinché un file possa essere compilato, tutte le funzioni usate devono essere almeno dichiarate prima dell’uso (Non necessariamente definite).
+
+FASI DI COMPILAZIONE DI UN'APPLICAZIONE
+    1) Compilare i file .c producendo i file oggetto .o;
+       Un file oggetto è un file binario intermedio generato dal compilatore durante il processo di compilazione di un programma. I file oggetto contengono codice macchina
+       che rappresenta il risultato della compilazione del codice sorgente C, ma non sono eseguibili direttamente.
+       I file oggetti contengono riferimenti che devono essere risolti dal linker per produrre un file eseguibile autocontenuto. è grazie ai file ogetto che ogni file 
+       sorgente può essere compilato separatamente.
+    2) Collegare i file oggetto fra loro e con le librerie di sistema per produrre l'eseguibile. 
+       Perché la produzione dell’eseguibile vada a buon fine:
+       - ogni funzione deve essere definita una e una sola volta in uno e uno solo dei file sorgente, se la definizione manca, si ha errore di linking.
+       - ogni cliente che usi una funzione deve incorporare la dichiarazione opportuna, se la dichiarazione manca, si ha errore di compilazione nel file del cliente.
+
+LINKER
+Perché, esattamente, serve il linker?
+Il compilatore deve “lasciare indefiniti” i riferimenti alle chiamate di funzione che non sono definite nel medesimo file.
+Compito del linker è risolvere tali riferimenti, sostituendoli con gli indirizzi effettivi del codice della funzione.
+
+HEADER FILE
+Contiene tutte le dichiarazioni relative alle funzioni definite nel componente software (o modulo).
+Automatizza la gestione delle dichiarazioni facendo avitare ai clienti del componente di dover trascrivere riga per riga le dichiarazioni necessarie.
+
+Attenzione: un header file dovrebbe contenere solo dichiarazioni e non definizioni, sia di funzioni che di variabili. 
+Altrimenti, possibile problema di una definizione compilata più volte, questo causa errori di linking poiché il linker troverà più definizioni della stessa funzione o variabile.
+E se servono variabili globali utilizzate da più file sorgenti –> Clausola extern
