@@ -11,5 +11,42 @@ macchina a registri. Il costo computazionale di un'algoritmo è equivalente ad f
 -> come mai siamo interessati a studiare l’ordine di grandezza di f(n) ignorando le costanti moltiplicative e termini di ordine inferiore? Rispondiamo con una domanda:
    Consideriamo due algoritmi A e B che risolvono lo stesso problema.
       Sia f_a(n) = 10^3*n il costo computazionale di A.
-      Sia f_n (n) = 10^(-3)*n^2 il costo computazionale di B.
-   Quale dei due è preferibile?
+      Sia f_b(n) = 10^(-3)*n^2 il costo computazionale di B.
+   Quale dei due è preferibile?  ( f_a(n) > f_b(n) per n=10^6 )
+
+NOTAZIONI ASINTOTICHE:
+   - O(f(n)): data una funzione costo f(n), definiamo l’insieme O(f(n)) come l’insieme delle funzioni g(n) per le quali esistono costanti c>0 e n0 >=0 per cui:
+              g(n) <= cf(n) per n > n0. 
+   - ecc...
+
+Spiegazione intuitiva:
+   - Se g(n) = O(f(n)) significa che l’ordine di grandezza di g(n) è “minore o uguale” a quello di f(n);
+   - Se g(n) = Theta(f(n)) significa che g(n) e f(n) hanno lo stesso ordine di grandezza;
+   - Se g(n) = Omega(f(n)) significa che l’ordine di grandezza di g(n) è “maggiore o uguale” a quello di f(n);
+
+COSTO DI ESECUZIONE
+Def: Un algoritmo A ha costo di esecuzione O(f(n)) su istanze di ingresso di dimensione n, rispetto ad una certa risorsa di calcolo, se la quantitá
+r(n) di risorsa sufficiente per eseguire A su una qualunque istanza di dimensione n verifica la relazione r(n) = O(f(n)).
+(Nota, Risorsa di calcolo per noi significa tempo di esecuzione oppure occupazione di memoria).
+
+COMPLESSITÀ DEI PROBLEMI
+Def: Un problema P ha complessità O(f(n)) rispetto ad una data risorsa di calcolo, se esiste un algoritmo che risolve P il cui costo di esecuzione
+rispetto a quella risorsa è O(f (n)).
+
+ANALISI DEL CASO PESSIMO, OTTIMO E MEDIO
+Sia I_n l’insieme di tutte le possibili istanze di input di lunghezza n.
+Sia T(I) il tempo di esecuzione dell’algoritmo sull’istanza I appartenente a I_n.
+   - Il costo nel caso pessimo (worst case) è definito come:
+      T_worst(n) = max T(I)
+   - Il costo nel caso ottimo (best case) è definito come:
+      T_best(n) = min T (I)
+   - Il costo nel caso medio (average case) è definita come:
+      T_avg(n) = sommatoria_su_tutte_le_istanze_I(  T(I)P(I) )    (dove P(I) è la probabilità che l’istanza I si presenti)
+
+Se la complessità T(n) di un algoritmo A è O(n^2), vuol dire che A non richiede mai tempo superiore a cn^2, per produrre il suo output in corrispondenza ad un qualsivoglia
+input di ampiezza n, per valore di c opportuno e n sufficientemente grande.
+   -> NON si intende che A impiega tempo cn^2 per ogni input di ampiezza n.
+   -> si intende che NON esistono input per cui l’algoritmo richiede tempo > cn^2 (con n sufficientemente grande).
+Se la complessità T(n) di un algoritmo A è Omega(n^2), vuol dire che A richiede almeno cn^2 tempo, per produrre il suo output nel caso peggiore, per valore di c opportuno
+e n sufficientemente grande.
+   -> ESISTE almeno un input di ampiezza n (n suff. grande) su cui A richiede tempo cn^2
