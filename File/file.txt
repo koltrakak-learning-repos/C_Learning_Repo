@@ -1,0 +1,72 @@
+Un file è una astrazione fornita dal sistema operativo, per consentire la memorizzazione di informazioni su memoria di massa caratterizzata da dimensione potenzialmente 
+illimitata ad accesso sequenziale.
+
+Una testina di lettura/scrittura (ideale) indica in ogni istante la posizione corrente:
+    – inizialmente, la testina si trova per ipotesi sulla prima posizione
+    – dopo ogni operazione di lettura/scrittura, essa si sposta nella posizione successiva
+NB:È illecito operare oltre la fine del file.
+
+In C, ogni tipo di stream (flusso) di dati, sia che provenga da un file su disco, da una tastiera, da una socket o da qualsiasi altro dispositivo di input/output,
+viene trattato come un file!
+Questa astrazione permette al programmatore di utilizzare lo stesso insieme di funzioni e metodi per interagire con diversi tipi di dispositivi e sorgenti di dati.
+
+In pratica è definita una struttura FILE in <stdio.h>, di cui l’utente non ha necessità di conoscere nei dettagli(spesso cambia da una piattaforma all’altra)
+    • Le strutture FILE non sono mai gestite direttamente dall’utente, ma solo dalle funzioni della libreria standard stdio.h
+    • L’utente definisce e usa, nei suoi programmi, solo dei puntatori a FILE
+
+Due tipi di file: file binari e file di testo
+    • I file di testo sono sequenze ordinate di CARATTERI organizzati in RIGHE
+    • I file binari sono sequenze ordinate di BYTE
+
+Funzioni:
+    - FILE* fopen(char fname[], char modo[])
+        ->  modo specifica come aprire il file:
+                • r apertura in lettura (read)
+                • w apertura in scrittura (write)
+                • a apertura in aggiunta (append)
+            seguita opzionalmente da:
+                • t apertura in modalità testo (default)
+                • b apertura in modalità binaria
+            ed eventualmente da:
+                • + apertura con possibilità di modifica
+
+        ->  NB: Il valore restituito da fopen() è un puntatore a FILE, da usare in tutte le successive operazioni sul file
+                - NULL in caso l’apertura sia fallita, controllarlo è il solo modo per sapere se il file si sia davvero aperto
+                - Se non si è aperto, il programma usualmente non deve proseguire chiamata a funzione di libreria exit()
+
+    - int fclose(FILE*)
+        -> 0 se tutto è andato bene; EOF in caso di errore
+        -> NB: Quando si lavora con i file in C, è importante chiudere esplicitamente tutti gli stream aperti (tranne quelli standard) prima 
+            della terminazione del programma, anche se il sistema operativo pulisce nel caso ne rimangano di aperti.
+            Ci sono diverse ragioni per questa pratica consigliata:
+            - Liberazione delle Risorse: la chiusura esplicita dei file libera le risorse del sistema immediatamente. Questo è particolarmente importante per i programmi
+              che aprono molti file o che girano per lunghi periodi di tempo, poiché lasciare file aperti può esaurire le risorse di sistema disponibili.
+            - Scrittura dei Dati Rimanenti: Quando un file viene chiuso esplicitamente usando fclose, viene assicurato che tutti i dati ancora presenti nei buffer interni
+              vengano scritti sul disco. Se il programma termina inaspettatamente o non chiude esplicitamente i file, alcuni dati potrebbero rimanere nei buffer
+              e non essere mai scritti sul file, causando perdita di dati.
+            - Integrità del File: Chiudere i file correttamente garantisce che i metadati del file, come la dimensione e la data di modifica, vengano aggiornati correttamente.
+              Questo può essere importante per la coerenza e l'integrità del file.
+
+    - lettura/scrittura: Le funzioni di I/O disponibili per i file di testo sono una generalizzazione di quelle già note per i canali di I/O standard
+        int getchar(void);      ->      int fgetc(FILE* f);
+        int putchar(int c);     ->      int fputc(int c, FILE* f);
+        char* gets(char* s);    ->      char* fgets(char* s, int n, FILE* f);
+        int puts(char* s);      ->      int fputs(char* s, FILE* f);
+        int printf( ... );      ->      int fprintf(FILE* f, ... );
+        int scanf( ... );       ->      int fscanf(FILE* f, ... );
+
+    - per scrivere/leggere file binari si usano:
+        • int fwrite(addr, int dim, int n, FILE *f);
+            - scrive sul file n elementi, ognuno grande dim byte (complessivamente, scrive quindi n*dim byte)
+            - gli elementi da scrivere vengono prelevati dalla memoria a partire dall’indirizzo addr
+            - restituisce il numero di elementi (non di byte) effettivamente scritti, che possono essere meno di n
+        
+        • int fread(addr, int dim, int n, FILE *f);
+            - legge dal file n elementi, ognuno grande dim byte (complessivamente, tenta di leggere quindi n*dim byte)
+            - gli elementi da leggere vengono scritti in memoria a partire dall’indirizzo addr
+            - restituisce il numero di elementi (non di byte) effettivamente letti, che possono essere meno di n se il file finisce prima.
+              Controllare il valore restituito è il SOLO MODO per sapere che cosa è stato letto, e in particolare per scoprire se il file è terminato.
+
+        È bene sapere che in realtà la signature dei metodi non è esattamente quella vista, ma:
+            size_t fread(void *addr, size_t dim, size_t n, FILE *f);
+        size_t è un tipo definito tramite typedef ed è il tipo restituito dall’operatore sizeof. size_t è mappato su un intero senza segno à unsigned int

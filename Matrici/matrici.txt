@@ -1,0 +1,57 @@
+Le matrici sono semplici array di array. Possono essere di dimensione arbitraria.
+
+MEMORIZZAZIONE
+Le matrici multidimensionali sono memorizzate per righe in celle contigue. Nel caso bidimensionale con dimensioni x e y:
+    m[0][0] fino a m[0][y-1] -> m[1][0] fino a m[1][y-1] -> ... -> m[x-1][y-1]
+Analogamente nel caso di più di 2 dimensioni: viene fatto variare prima l’indice più a destra, poi il penultimo a destra, e così via fino a quello più a sinistra.
+
+PER QUANTO RIGUARDA L'INDIRIZZAMENTO DI UNA CELLA
+In generale, se <tipo> mat[dim1][dim2]…[dimn], mat[i1][i2]…[in-1][in] è l’elemento che si trova nella cella con offset:
+    i1*dim2*…*dimn+… + in-1*dimn + in a partire dall’inizio del vettore.
+
+Nel caso bidimensionale: con <tipo> mat[dim_x][dim_y] 
+    l'elemento mat[i][j] ha offset i*dim_y + j
+
+NB: ricordarsi anche che l'offset viene automaticamente moltiplicato per il numero di byte del tipo dal compilatore durante l'inidirizzamento. 
+
+IMPORTANTE: siccome il numero delle colonne è fondamentale per accedere alle celle di una matrice bidimensionale, quando si passa una matrice (bidimensionale) come parametro
+            ad una funzione, va dichiarato necessariamente il numero delle colonne es. foo(matrice[][dim_y]).
+            In questo modo il compilatore sa come accedere all’array in memoria calcolandosi correttamente il giusto offset. 
+
+            Nel caso più generale, soltanto la prima dimensione di un vettore multidimensionale può essere omessa.
+
+ESEMPIO:
+#include <stdio.h>
+void f1(int A[][3], int n) {    // offset = i*3 + j
+    int i;
+    for (i=0; i<n; i++)
+    printf (“A[%d][0] = %d\n”, i, A[i][0])
+}
+
+void f2(int A[][2], int n) {    // offset = i*2 + j
+    int i;
+    for (i=0; i<n; i++)
+    printf (“A[%d][0] = %d\n”, i, A[i][0])
+}
+
+int main() {
+    int A[3][2]= {{1,2}{3,4}{5,6}};
+    f1(A,3); // problema con dimensioni, stampa 1 poi 4 e poi ??? -> out of bounds
+    f2(A,3); // ok stampa 1 poi 3 e poi 5
+    return 0;
+}
+
+ARRAY DI PUNTATORI E RIGHE DI LUNGHEZZA VARIABILE
+Non ci sono vincoli sul tipo degli elementi di un vettore, possiamo dunque avere anche vettori di puntatori.
+Ad esempio: char * stringhe[4]; definisce un vettore di 4 puntatori a carattere (allocata memoria per 4 puntatori cio 32byte nei sistemi x64)
+
+Uno dei vantaggi offerti dall’uso di vettori di puntatori consiste nel fatto che si possono realizzare righe di lunghezza variabile, come nel caso di argv. 
+
+I vari puntatori sono memorizzati in celle contigue. Possono invece non essere contigue le celle che loro puntano.
+
+ESEMPIO:
+char * mesi[] = {“Gennaio”,”Febbraio”,”Marzo”,”Aprile”,”Maggio”,”Giugno”, ”Luglio”,”Agosto”, ”Settembre”,”Ottobre”, ”Novembre”,”Dicembre”};
+
+I caratteri dell’i-esima stringa vengono posti in una locazione qualsiasi e in mesi[i] viene memorizzato un puntatore a tale locazione.
+NB: in questo caso l'array viene inizializzato con dei literal quindi la memoria totale allocata sarà quella di 12 puntatori + numero di caratteri totali.
+    Nel caso di dichiarazione senza inizializzazione si sarebbe allocata memoria solo per i DIM puntatori.

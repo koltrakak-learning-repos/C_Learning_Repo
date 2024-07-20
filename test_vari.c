@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include<stdlib.h>
 
 // Definizione della funzione esterna
 void funzione_esterna() {

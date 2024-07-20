@@ -20,9 +20,9 @@ separatori, come nel caso di lettura di caratteri/stringhe, queste lettura succe
 Per questo motivo è bene consumare manualmente i caratteri di fine linea con getchar() oppure con scanf("%*c") ("*" è il simbolo di soppressione di assegnazione indica
 che il prossimo carattere di input deve essere letto ma non assegnato a nessuna variabile). 
 
-NB: Questo problema si verifica solo con la lettura di caratteri. Negli altri casi il/i carattere/i nel buffer è/sono considerato/i come separatore/i e scartato/i.
-
-scanf() è deprecata dato che è unsafe. Meglio scanf_s() in cui si specificano anche il numero di caratteri da leggere (uguale a scanf per i numeri)
+NB:  Questo problema si verifica solo con la lettura di caratteri. Negli altri casi il/i carattere/i nel buffer è/sono considerato/i come separatore/i e scartato/i.
+NB2: scanf() considera finita la stringa al primo spazio o separatore che incontra.
+NB3: scanf() è deprecata dato che è unsafe. Meglio scanf_s() in cui si specificano anche il numero di caratteri da leggere (uguale a scanf per i numeri).
 
 SCRITTURA CON FORMATO
 printf() scrive una serie di valori in base alle specifiche contenute in <stringa-formato>
