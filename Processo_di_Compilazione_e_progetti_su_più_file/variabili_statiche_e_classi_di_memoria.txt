@@ -1,0 +1,48 @@
+Abbiomo visto che le variabili globali in C sono potenzialmente visibili in tutti i file dell’applicazione pone dei problemi di protezione:
+    • Che cosa succede se un componente dell'applicazione altera una variabile globale?
+    • Nell'esempio della procedura con stato nextDispari(): cosa succede se qualcuno altera la variabile globale ultimoValore? -> comprometto la funzione
+
+Sono desiderabili variabili:
+    • globali nel senso di permanenti come tempo di vita (per poter costruire componenti dotati di stato)
+    • ma anche protette, nel senso che non tutti possano accedervi
+-> Queste sono le VARIABILI STATICHE
+
+In C, una variabile può essere dichiarata static:
+    • è permanente come tempo di vita
+    • ma è protetta, in quanto è visibile solo entro il suo scope di definizione
+Nel caso di una variabile globale static, ogni tentativo di accedervi da altri file, tramite dichiarazioni extern, sarà impedito dal compilatore.
+
+Una variabile statica può essere definita anche dentro a una funzione. Così:
+    • è comunque protetta, in quanto visibile solo dentro alla funzione (come ogni variabile locale)
+    • ma è anche permanente, in quanto il suo tempo di vita diventa quello dell’intero programma
+-> Consente di costruire componenti (funzioni) dotati di stato, ma indipendenti dall'esterno.
+
+Quindi, la parola chiave static
+    • ha sempre e comunque due effetti
+        – rende l’oggetto permanente
+        – rende l’oggetto protetto (invisibile fuori dal suo scope di definizione)
+    • ma se ne vede sempre uno solo per volta
+        – una variabile definita in una funzione, che è comunque protetta, viene resa permanente
+        – una variabile globale, già di per sé permanente, viene resa protetta
+
+CLASSI DI MEMORIA
+il linguaggio C prevede 4 classi di memoria da preporre alle variabili:
+• auto
+    - E’ il default (puo' essere omessa) per le variabili locali, cioè variabili definite all'interno della definizione di una funzione (o blocco).
+    - Vengono create all’attivazione della funzione (record d’attivazione) e NON vengono inizializzate automaticamente.
+    - All'uscita dell’attivazione della funzione vengono distrutte e perdono ogni valore assegnato loro.
+• static
+    - Non sono mai previste di default e quindi la parola a chiave static deve essere esplicitata per introdurle.
+    - L’allocazione e l'inizializzazione avviene all'inizio del programma nelle aree di memoria dei dati globali del programma.
+    - Per default le variabili statiche sono sempre inizializzate a zero.
+    - Una variabile statica conserva il proprio valore tra una chiamata e l'altra della funzione in cui è definita.
+    - Una variabile globale con attributo di memorizzazione static è visibile esclusivamente nel file d'appartenenza a partire dal punto in cui è dichiarata.
+• extern
+    - Lo sono per default le variabili globali e sopravvivono per tutta l’esecuzione del programma.
+    - La parola chiave extern deve essere esplicitata per accedere a variabili globali definite in altri file.
+    - Una variabile locale esterna non è quindi memorizzata nel record di attivazione della funzione.
+• (register)
+    - Non sono mai previste di default e quindi la parola chiave register deve essere esplicitata per introdurle.
+    - Rappresenta il modo per allocare variabili automatiche su registri ad accesso più veloce e che compiono operazioni più rapidamente.
+    - Su tali variabili non si può utilizzare l’operatore di estrazione di indirizzo (&)
+    - Un uso tipico di questa classe è per gli indici di ciclo

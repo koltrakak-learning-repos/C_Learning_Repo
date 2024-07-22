@@ -1,0 +1,24 @@
+Un tipo di dato astratto (ADT) definisce:
+    • una definizione di tipo
+        - implica un dominio, D
+    • un insieme di operazioni ammissibili su oggetti di quel tipo
+        - funzioni: calcolano valori sul dominio D
+        - predicati: calcolano proprietà vere o false su D
+
+In C, un ADT si costruisce definendo:
+    • il nuovo tipo con typedef
+    • una funzione per ogni operazione
+La struttura di un ADT comprende quindi:
+    1. un file header, contenente
+        - typedef
+        - dichiarazione delle funzioni
+    2. un file di implementazione, contenente
+        - direttiva #include per includere il proprio header (per importare la definizione di tipo)
+        - definizione delle funzioni
+
+
+Gli ADT così realizzati funzionano, ma molto dipende dall’autodisciplina del programmatore
+    • Non esiste alcuna protezione contro un uso scorretto dell’ADT
+      l’organizzazione suggerisce di operare sull’oggetto solo tramite le funzioni previste, ma NON riesce a impedire
+      di aggirarle a chi lo volesse (ad esempio: counter c1; c1++; )
+    • La struttura interna dell’oggetto è visibile a tutti (nella typedef)

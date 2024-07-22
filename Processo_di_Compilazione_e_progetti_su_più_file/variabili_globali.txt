@@ -1,0 +1,23 @@
+In C, ogni funzione ha il suo ambiente locale che comprende i parametri e le variabili definite localmente alla funzione.
+
+Esiste però anche un ambiente globale: quello dove tutte le funzioni sono definite. Qui si possono anche definire variabili, dette variabili globali
+
+La denominazione "globale" deriva dal fatto che l'environment di definizione di queste variabili non coincide con quello di nessuna funzione (neppure con quello del main)
+
+Una variabile globale è dunque definita fuori da qualunque funzione
+    • tempo di vita = intero programma
+    • scope = il file in cui è dichiarata dal punto in cui è scritta in avanti
+
+Anche per le variabili globali, come per le funzioni, si distingue fra dichiarazione e definizione
+    – al solito, la dichiarazione esprime proprietà associate al simbolo, ma non genera un solo byte di codice o di memoria allocata
+    – la definizione invece implica anche allocazione di memoria, e funge contemporaneamente da dichiarazione
+-> Come distinguere la dichiarazione di una variabile globale dalla sua definizione?
+
+Nelle funzioni è facile perché la dichiarazione ha un ";" al posto del corpo {…}.
+Per le variabili globali SI USA LA APPOSITA KEYWORD EXTERN!
+    • int trentadue = 10;   -> è una definizione (con inizializzazione)
+    • extern int trentadue; -> è una dichiarazione (la variabile sarà definita in un altro file sorgente appartenente al progetto)
+
+-> A che cosa servono le variabili globali?
+    • per scambiare informazioni fra cliente e servitore in modo alternativo al passaggio dei parametri
+    • per costruire specifici componenti software dotati di stato
