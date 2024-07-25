@@ -1,0 +1,6 @@
+tre varianti possibili realizzazioni di lista con puntatori (linked lists):
+    - monodirezionale/bidirezionale
+    - circolare o no
+    - con sentinella o meno
+
+strutture dati ricorsive
