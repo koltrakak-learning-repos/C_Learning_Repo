@@ -17,10 +17,15 @@ Tre varianti possibili
     • circolare o no
     • con sentinella o meno
 
+NB: utilizzando i puntatori, e quindi avendo a disposizione solo un accesso sequenziale alle celle, è difficile verificare se gli input delle funzioni sono corretti.
+    per esempio, con 'read(p)' sarebbe desiderabile verificare che la posizione p esista, tuttavia questo richiede lo scorrimento della lista e quindi un costo O(n).
+    In genere quindi, per efficienza, questo genere di controlli non si fanno ed è responsabilità del programmatore usare le liste in modo corretto. 
+
 ARRAY LISTS:
     • L'idea è di usare un vettore per memorizzare gli elementi della sequenza -> Implementazione molto semplice
     • Contiguità degli elementi in memoria
     • Accesso diretto possibile tramite indice ( O(1) )
+    • Input alle funzione facilmente verificabili
     • I vettori sono statici -> L’array deve essere ridimensionato se (ma non solo) esaurito. 
         -> gestione dinamica della memoria + copia di tutti gli elementi nel nuovo array + distruzione vecchio array -> O(n) 
     • Costosi inserimento e cancellazione ( O(n) ). Gli elementi vanno scalati a destra/sinistra su un inserimento/cancellazione.
