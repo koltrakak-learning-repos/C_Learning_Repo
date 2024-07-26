@@ -9,6 +9,7 @@ NB: Questo non significa che i vari tipi di puntatori siano inerentemente divers
 a 32bit, 8 byte per 64bit). Il tipo di dato a cui un puntatore fa riferimento determina come il compilatore interpreta i dati in quell'indirizzo di memoria, per questo 
 motivo puntatori di tipi diversi sono incompatibili.
 
+PUNTATORI A VOID
 E’ anche possibile specificare puntatori generici per cui non si specifica il tipo: void * p;
 Necessario poi un cast ad un tipo di puntatore specifico al momento della dereferenziazione, altrimenti non si saprebbe come maneggare la memoria per recuperare i valori
 ( per esempio (int *) ).

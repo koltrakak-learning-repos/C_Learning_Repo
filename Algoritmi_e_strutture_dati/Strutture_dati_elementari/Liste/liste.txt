@@ -1,6 +1,26 @@
-tre varianti possibili realizzazioni di lista con puntatori (linked lists):
-    - monodirezionale/bidirezionale
-    - circolare o no
-    - con sentinella o meno
+Implementazione del tipo di dato astratto sequenza.
+Esistono due implementazioni:
+    - liste con puntatori(linked lists)
+    - liste con vettori(array lists) 
 
-strutture dati ricorsive
+LINKED LISTS:
+    • L'idea è di rappresentare ogni elemento della sequenza come un record che contiene un proprio valore, e un riferimento ai record alle posizioni
+      successive/precedenti della sequenza.
+    • Non c'è contiguità di memorizzazione.
+    • Non è possibile un accesso diretto, per accedere ad un elemento generico la struttura va scorsa, accesso sequenziale ( O(n) ). 
+    • L’inserimento o cancellazione di elementi è semplice, comporta solo l’aggiornamento di puntatori -> implementazione molto dinamica.
+        - Inserimento in testa/coda O(1)
+        - Inserimento in una posizione generica O(n)
+
+Tre varianti possibili 
+    • monodirezionale/bidirezionale
+    • circolare o no
+    • con sentinella o meno
+
+ARRAY LISTS:
+    • L'idea è di usare un vettore per memorizzare gli elementi della sequenza -> Implementazione molto semplice
+    • Contiguità degli elementi in memoria
+    • Accesso diretto possibile tramite indice ( O(1) )
+    • I vettori sono statici -> L’array deve essere ridimensionato se (ma non solo) esaurito. 
+        -> gestione dinamica della memoria + copia di tutti gli elementi nel nuovo array + distruzione vecchio array -> O(n) 
+    • Costosi inserimento e cancellazione ( O(n) ). Gli elementi vanno scalati a destra/sinistra su un inserimento/cancellazione.

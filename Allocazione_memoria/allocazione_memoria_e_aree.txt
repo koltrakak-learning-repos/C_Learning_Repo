@@ -1,0 +1,78 @@
+AREE DELLA MEMORIA di un PROGRAMMA IN ESECUZIONE
+A livello di implementazione ogni entità (variabile o funzione) a qualunque categoria appartenga è memorizzata nella memoria del calcolatore, ma a
+seconda della categoria viene inserita in zone di memoria gestite diversamente.
+    • Per le variabili:
+        – DATI GLOBALI
+        – STACK
+        – HEAP
+    • Per le definizioni di funzioni:
+        – CODICE
+    • Esiste inoltre una memoria interna al microprocessore: REGISTRI usata per variabili e parametri register (e ottimizzazione del compilatore)
+
+ALLOCAZIONE MEMORIA
+Quando un blocco di memoria RAM viene assegnato dal sistema operativo ad un programma in esecuzione. 
+In C abbiamo tre modalità di allocazione della memoria:
+    - Allocazione automatica: Riguarda le variabili (non static) con scope locale. La memoria viene automaticamente allocata sullo stack nel momento in cui
+                              una funzione viene invocata a runtime(record di attivazione). Automaticamente deallocata al termine della funzione in cui è dichiarata.
+    - Allocazione statica: Riguarda le variabili globali e le variabili locali dichiarate static. La memoria viene allocata prima dell’esecuzione del programma
+                           e rilasciata al termine.
+    - Allocazione dinamica: Memoria richiesta a run-time esplicitamente dal programmatore (mediante specifiche funzioni di libreria). Viene allocata
+                            dinamicamente nella memoria heap a cui si può accedere solo mediante puntatori. Deve anche essere rilasciata esplicitamente.
+        
+Per chiedere nuova memoria o rilasciarla “al momento del bisogno” (allocazione dinamica) si usano opportune funzioni di libreria i cui prototipi sono dichiarati nel file
+header stdlib.h e che “girano” la richiesta al sistema operativo: malloc e free.    
+
+MALLOC
+
+    void * malloc(size_t dim)
+
+• chiede al sistema di allocare un’area di memoria contigua grande 'dim' byte
+• size_t = unsigned (long) int (in dipendenza dall’implementazione). Tipo restituito da sizeof() 
+• restituisce l’indirizzo dell’area di memoria allocata(NULL se, per qualche motivo, l’allocazione non è stata possibile)
+    - è sempre opportuno controllare il risultato di malloc() prima di usare la memoria fornita
+    - puntatore a void, bisogna fare un cast al momento della dereferenziazione/assegnamento
+• Il sistema operativo preleva la memoria richiesta dall’area heap
+• Il sistema ricorda, per ogni singola allocazione, quanta memoria è stata allocata
+
+esempio:
+    int *p;
+    p = (int*) malloc(5*sizeof(int));
+
+FREE
+Quando non serve più, l’area allocata deve essere esplicitamente deallocata. Ciò segnala al sistema operativo che quell’area è da
+considerare nuovamente disponibile per altri usi.
+
+    void free(void* p);
+
+• Consente di rilasciare la memoria allocata dinamicamente che si rende disponibile per eventuali nuove allocazioni.
+• E’ buona norma farlo per non saturare la memoria disponibile.
+• Il sistema sa quanta memoria deallocare per quel puntatore (ricorda la relativa malloc).
+• Se la memoria non viene correttamente deallocata -> memory leaking (consumo di memoria).
+
+esempio:
+    int *p=(int*)malloc(5*sizeof(int));
+    ...
+    free(p);
+
+    NB: Non è necessario specificare la dimensione del blocco da deallocare, perché il sistema la conosce già dalla malloc() precedente
+
+AREE DINAMICHE: TEMPO DI VITA
+Tempo di vita di una area dati dinamica non è legato a quello delle funzioni!
+    -> in particolare, non è legato al tempo di vita della funzione che l’ha creata
+Quindi, una area dati dinamica può sopravvivere anche dopo che la funzione che l’ha creata è terminata.
+Ciò consente di:
+    - creare un’area dinamica in una funzione
+    - usarla in un’altra funzione
+    - e distruggerla in una funzione ancora diversa
+
+DANGLIGN REFERENCES
+Puntatore che non punta più a aree significative (ciondolante…).
+
+    int *p;
+    p=(int*)malloc(5*sizeof(int));
+    free(p);
+    p[0] = 13; p[1] = 18;...
+    *(p+4) = -20;
+
+NB: dopo la free il blocco di memoria puntato da p viene deallocato, ma il valore del puntatore p non cambia;
+    eventuali usi successivi di p sono pericolosi in quanto: se va bene seg fault, altrimenti corruzione della memoria. In generale comportamento indefinito.
