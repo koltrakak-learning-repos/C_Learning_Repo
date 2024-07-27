@@ -34,3 +34,14 @@ Automatizza la gestione delle dichiarazioni facendo avitare ai clienti del compo
 Attenzione: un header file dovrebbe contenere solo dichiarazioni e non definizioni, sia di funzioni che di variabili. 
 Altrimenti, possibile problema di una definizione compilata più volte, questo causa errori di linking poiché il linker troverà più definizioni della stessa funzione o variabile.
 E se servono variabili globali utilizzate da più file sorgenti –> Clausola extern
+
+GUARDIE
+per non includere più volte gli stessi header file si utilizzano le seguenti guardie all'inizio e alla fine di quest'ultimi:
+
+    #ifndef NOME_GUARDIA
+    #define NOME_GUARDIA
+        ...contenuto header file...
+    #endif 
+
+In questo modo, per esempio, main e file che implementa la libreria dichiarata nell'header file possono includere entrambi quest'ultimo senza preoccuparsi 
+di star includendo più volte le stesse cose nel programma.
