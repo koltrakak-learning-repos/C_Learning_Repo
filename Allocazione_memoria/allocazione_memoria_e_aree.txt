@@ -38,6 +38,8 @@ esempio:
     int *p;
     p = (int*) malloc(5*sizeof(int));
 
+NB: esiste anche una funzione calloc(dim, size) che alloca memoria inizializzando però tutto al byte 0.    
+
 FREE
 Quando non serve più, l’area allocata deve essere esplicitamente deallocata. Ciò segnala al sistema operativo che quell’area è da
 considerare nuovamente disponibile per altri usi.
@@ -76,3 +78,11 @@ Puntatore che non punta più a aree significative (ciondolante…).
 
 NB: dopo la free il blocco di memoria puntato da p viene deallocato, ma il valore del puntatore p non cambia;
     eventuali usi successivi di p sono pericolosi in quanto: se va bene seg fault, altrimenti corruzione della memoria. In generale comportamento indefinito.
+
+CONSIDERAZIONI SULL'ALLOCAZIONE DINAMICA
+    • Visibilità: Le variabili allocate dinamicamente non seguono le stesse regole di visibilità delle variabili automatiche, statiche o globali.
+      La visibilità è determinata dal puntatore che tiene l'indirizzo dell'area allocata e dal sua scope.
+    • Durata: La durata delle variabili allocate dinamicamente è determinata dal tempo di vita del puntatore
+      e dalla gestione esplicita della memoria (allocazione e deallocazione).
+    • Inizializzazione: La memoria allocata dinamicamente non è inizializzata automaticamente a meno che non si usi calloc (che inizializza a zero).
+      malloc lascia la memoria non inizializzata.

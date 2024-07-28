@@ -46,3 +46,5 @@ il linguaggio C prevede 4 classi di memoria da preporre alle variabili:
     - Rappresenta il modo per allocare variabili automatiche su registri ad accesso più veloce e che compiono operazioni più rapidamente.
     - Su tali variabili non si può utilizzare l’operatore di estrazione di indirizzo (&)
     - Un uso tipico di questa classe è per gli indici di ciclo
+
+NB: queste classi di memoria non si applicano a variabili allocate dinamicamente. In poche parole non gestiscono la memoria heap.
