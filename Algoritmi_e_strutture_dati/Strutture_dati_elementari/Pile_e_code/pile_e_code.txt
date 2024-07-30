@@ -1,0 +1,30 @@
+Se è noto a priori come gli elementi di una sequenza possono essere inseriti o rimossi, realizzazioni efficienti diventano possibili. 
+
+PILA
+Una pila(stack) è una sequenza di elementi dello stesso tipo in cui è possibile aggiungere/togliere elementi solamente dall'estremo testa.
+Può essere vista come un caso speciale di sequenza in cui l'ULTIMO elemento inserito è anche il PRIMO ad essere rimosso, e non è possibile accedere ad alcun elemento che
+non sia quello in testa (politica FIFO).
+
+    Specifica:
+        boolean isEmpty()       //controlla se la pila è vuota
+        void push(Item v)       //inserisce v in cima alla pila
+        Item pop()              //estrae l'elemento in cima e lo restituisce
+        Item top()              //legge l'elemento in cima
+
+CODA
+Una coda(queue) è una sequenza di elementi dello stesso tipo in cui è possibile aggiungere elementi dall'estremo coda e e rimuovere elementi dalla testa.
+Può essere vista come un caso speciale di sequenza in cui il PRIMO elemento inserito è anche il PRIMO ad essere rimosso, e non è possibile accedere ad alcun elemento che
+non sia quello in testa o quello in fondo (politica FIFO). 
+
+    Specifica:
+        boolean isEmpty()       //controlla se la coda è vuota
+        void enqueue(Item v)    //inserisce v in fondo alla coda
+        Item dequeue()          //estrae l'elemento in testa alla coda e lo restituisce
+        Item top()              //legge l'elemento in testa alla coda
+
+IMPLEMENTAZIONE
+Dato che pile e code sono sequenze speciali, anch'esse possono essere implementate mediante sia puntatori che vettori.
+Attraverso liste BIDIREZIONALI tutte le operazioni di entrambe le strutture hanno complessità O(1).
+Sono possibili anche implementazioni basate su vettori, sempre con complessità O(1) per tutte le operazioni, SE si è in grado di limitare superiormente il 
+numero massimo di elementi che possono essere presenti nella pila o nella coda (no ridimensionamenti + copia).
+
