@@ -51,7 +51,7 @@ list somma(list L1, list L2) {
     }
 
     return result;
-}   
+}   // O(n + m) = O(max{n, m}) = O(n)
 
 int main() {
     list L1 = emptyList();
