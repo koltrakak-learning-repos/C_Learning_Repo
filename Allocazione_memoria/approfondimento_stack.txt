@@ -1,0 +1,32 @@
+//////// VABBE
+
+
+Nella CPU esistono registri:
+  - General Purpose (GP): possono contenere qualsiasi tipo di dato; un esempio è EBX
+  - Speciale Purpose(SP): contengono dei dati specifici
+Uno registro SP che ci interessa adesso è ESP (ExtendedStackPointer). Il suo compito è mantenere l'indirzzo del [[top of the stack frame]]
+Un'altro ancora è EBP (Extended Base Pointer). Il suo compito è mantenere l'indirzzo del [[bottom of the stack frame]]
+(NB: a quanto pare ESP mantiene un valore RELATIVO e con LOGICA NEGATIVA. ESP salva dei valori del tipo -0x0000, -0X000C; più lo stack è alto, minore è il valore)
+
+Si è già visto che all’atto dell’invocazione di una funzione:
+  – si crea un record di attivazione
+  – si alloca la memoria per i parametri e le eventuali variabili locali
+  – si trasferiscono i parametri al servitore
+  – si trasferisce il controllo al servitore
+  – si esegue il codice della funzione
+  - si restituisce il controllo al cliente
+I record di attivazione (o Stack Frame) delle funzioni vengono memorizzati in memoria centrale e vengono gestito con la logica di uno Stack. In pratica, esiste
+un algoritmo (o meglio due) che manipola i registri per GP e SP (ESP, EBP) ed è responsabile per la allocazione  (e deallocazione) di memoria nello stack,
+della copia dei parametri, del salvattaggio delle variabili, del ritorno. Insomma della gestione dello stack.
+
+Quando viene effettuata una chiamata di funzione, questo algoritmo si attiva. Possiamo distinguere due fasi nella sua esecuzione:
+  - Prologo della funzione: 
+    -> si fa push in cima allo stack dell'EBP del precedente record di attivazione (indirizzo di ritorno)
+    -> si aggiorna EBP al valore corrente di ESP, il nuovo record di attivazione inizia alla fine del vecchio (cima dello stack)
+    -> si aggiorna ESP sottraendo un immediato (logica negativa), in questo modo si è allocata effettivamente memoria per le variabili della funzione
+    -> si copiano le variabili nella memoria appena allocata
+  (- dopo il prologa la funzione invocata esegue la sua logica)
+  - Epilogo della funzione:
+    -> si aggiorna ESP al valore di EBP -> la nuova cima è quella del record di attivazione della vecchia funzione
+    -> si fa pop del vecchio EBP salvato durante il prologo e si usa questo valore per aggiornare EBP corrente
+
