@@ -1,0 +1,72 @@
+--- NOTAZIONE POSIZIONALE
+I simboli assumono valori DIVERSI in base alla POSIZIONE nella sequenza. Risulta semplice l’individuazione di regole generali per il calcolo.
+
+BASE DI RAPPRESENTAZIONE
+Rappresentazione del numero come sequenza di simboli (cifre) appartenenti a un alfabeto di B simboli distinti.
+    • ogni simbolo rappresenta un valore compreso fra 0 e B-1
+    • Esempio di rappresentazione su N cifre: d_n-1, …, d_2, d_1, d_0
+Il valore di un numero espresso in questa notazione è ricavabile:
+    • a partire dal valore rappresentato da ogni simbolo
+    • PESANDOLO (moltiplicazione) in base alla posizione che occupa nella sequenza
+    • Esempio: d_n-1 -> posizione n-1 pesa B^(n-1), d_0 -> posizione 0 pesa B^0(unità)
+Un esempio completo può essere (1213)_4 = 1*4^3 + 2*4^2 + 1*4^1 + 3*4^0 = 64 + 32 + 4 + 3 = 103
+
+CONCLUSIONE: una sequenza di cifre NON è interpretabile se non si precisa la base in cui è espressa. Inversamente, ogni numero può essere espresso, in modo univoco, come
+sequenza di cifre in una qualunque base.
+
+--- CONVERSIONE NUMERO/STRINGA(di cifre)
+Problema: dato un numero v, determinare la sua rappresentazione in una base data (cifre d_n-1, ..., d_0).
+
+ALGORITMO DELLE DIVISIONI SUCCESSIVE:
+    • si divide v per B
+        - il RESTO costituisce la cifra meno significativa (d_0)
+        - il QUOZIENTE serve a iterare il procedimento
+    • se tale quoziente è zero, l’algoritmo termina
+    • se non lo è, lo si assume come nuovo valore v’, e si itera il procedimento con il valore v’
+Esempio: 11 in binario?
+    11 / 2 = 5 con resto 1  -> ... 1
+    5 / 2 = 2 con resto 1   -> ... 11
+    2 / 2 = 1 con resto 0   -> ... 011
+    1 / 2 = 0 con resto 1   -> 1011!
+
+--- CODIFICA BINARIA DELL'INFORMAZIONE:
+Si deve assegnare un codice binario univoco ad un insieme predefinito di oggetti.
+    • Quanti oggetti possiamo codificare con n bit? 
+        -> 2^n
+    • E il numero minimo n di bit sufficiente a codificare N oggetti distinti?
+        -> N <= 2^n ->  n = log_2(N) (intero superiore).
+
+OPERAZIONI ED ERRORI
+La rappresentazione binaria rende possibile fare addizioni e sottrazioni con le usuali regole algebriche. I valori rappresentabili con n bit tuttavia sono limitati, questo
+causa errori.
+
+esempio: supponendo di avere 7 bit (max value: 127) 
+60 +    |   0111100 +
+99 =    |   1100011 =
+-----   |   --------
+159     |(1)0011111 -> 31???
+
+Questo errore si chiama OVERFLOW. Può capitare sommando due numeri dello stesso segno il cui risultato non sia rappresentabile utilizzando il numero massimo di bit designati.
+(nel caso di numeri con segno -> invasione del bit di segno!)
+
+ESERCIZIO
+Un elaboratore rappresenta numeri interi su 8 bit dei quali 7 sono dedicati alla rappresentazione del modulo del numero e uno al suo segno. Indicare come viene
+svolta la seguente operazione aritmetica: 59 – 27 in codifica binaria
+    59  -> 0 0111011
+    -27 -> 1 0011011
+Tra i MODULI dei due numeri si esegue una SOTTRAZIONE:
+    0111011
+  - 0011011
+    ---------
+    0100000 -> 32 in base 10
+
+NB: eseguire una somma considerando i numeri per intero avrebbe prodotto un risultato sbagliato!
+    0 0111011
+  - 1 0011011
+    -----------
+    1 1010110 -> -86 in base 10; ho sommato i moduli invece che sottrarli, in più eventuali overflow avrebbero invertito il segno
+
+Inoltre, Che cosa avremmo dovuto fare se avessimo avuto 27-59? Avremmo dovuto invertire i due numeri (opero solo coi moduli), calcolare il risultato, e poi ricordarci di
+mettere a 1 il bit rappresentante il segno.
+
+-> Per ovviare a tali problemi, si usa la notazione in “complemento a 2” (vedi nel seguito), che permette di eseguire tutte le DIFFERENZE TRAMITE semplici SOMME.

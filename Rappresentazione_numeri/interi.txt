@@ -1,0 +1,114 @@
+--- RAPPRESENTAZIONE INTERI
+Abbiamo già discusso i numeri naturali (interi senza segno), Come rappresentare invece i numeri interi (con segno)?
+
+Rappresentare gli interi in un elaboratore pone alcune problematiche:
+    • come rappresentare il “segno meno”?
+    • possibilmente, come rendere semplice l’esecuzione delle operazioni aritmetiche?
+Magari riutilizzando anche gli stessi algoritmi e gli stessi circuiti già usati per i numeri interi senza segno
+
+Due possibilità:
+    • rappresentazione in modulo e segno
+        - semplice e intuitiva
+        - ma inefficiente e complessa nella gestione delle operazioni -> non molto usata in pratica
+    • rappresentazione in complemento a due
+        - meno intuitiva, costruita “ad hoc”
+        - ma efficiente e capace di rendere semplice la gestione delle operazioni -> largamente usata nelle architetture reali di CPU
+    
+RAPPRESENTAZIONE IN MODULO E SEGNO
+    • 1 bit per rappresentare il segno
+    • (N-1) bit per il valore assoluto
+Due difetti principali:
+    • occorrono algoritmi speciali per fare le operazioni
+        - se si adottano le usuali regole, non è verificata la proprietà X + (-X) = 0; ad esempio (+5 + (-5)) risulta = -10
+        - occorrono regole (e quindi circuiti) ad hoc
+    • due diverse rappresentazioni per lo zero: + 0 = 0 0000000 - 0 = 1 0000000
+
+--- RAPPRESENTAZIONE IN COMPLEMENTO A DUE
+    • si vogliono poter usare le regole standard per fare le operazioni
+    • in particolare, si vuole che
+        - X + (-X) = 0
+        - la rappresentazione dello zero sia unica
+    • anche a prezzo di una notazione più complessa, meno intuitiva, e magari non (completamente) posizionale
+
+IDEA
+Cambiare il valore del bit più significativo da +2^(N-1) a -2^(N-1). Peso degli altri bit rimane lo stesso.
+
+Esempi:
+    0 0000101 = + 5
+    1 0000101 = -128 + 5 = - 123
+    1 1111101 = -128 + 125 = - 3
+NB: in caso di MSB=1, gli altri bit NON sono il VALORE ASSOLUTO del numero naturale corrispondente
+
+INTERVALLO DI VALORI RAPPRESENTABILI
+• se MSB=0, stesso dei naturali con N-1 bit
+    - da 0 a 2^(N-1)-1;  Esempio: su 8 bit, [0,+127]
+• se MSB=1, stesso intervallo traslato di -2^(N-1)
+    - da -2^(N-1) a -1;     Esempio: su 8 bit, [-128,-1]
+• Intervallo globale = unione [ -2^(N-1) , 2^(N-1)-1 ]
+    - con 8 bit,    [ -128, +127 ]
+    - con 16 bit,   [ -32.768, +32.767 ]
+    - con 32 bit,   [ -2.147.483.648, +2.147.483.647 ]
+
+OSSERVAZIONE PER CONVERSIONE NUMERO/STRINGA DI INTERI 
+poiché si opera su N bit, questa è in realtà una aritmetica mod 2^N. Di conseguenza la RAPPRESENTAZIONE del numero v coincide con quella del numero v ± 2^N.
+    -> In particolare, la rappresentazione del negativo v coincide con quella del positivo v' = v + 2^N
+Esempio (8 bit, 2N = 256):
+per calcolare la rappresentazione di -3, possiamo calcolare quella del naturale -3+256 = 253!
+    • con la definizione di compl. a 2 (2^(N-1) = 128):
+        -3 = -128 + 125 -> 1 1111101
+    • con il trucco sopra:
+        -3 -> 253 -> 11111101
+
+COME SVOLGERE QUESTO CALCOLO IN MODO SEMPLICE?
+    • Se v<0:
+        v = - |v|
+        v’ = v + 2^N = 2^N - |v|
+    • che si può riscrivere come v’ = (2^N-1) - |v|+1
+    • dove la quantità (2^N -1) è, in binario, una sequenza di N cifre a “1”
+    • Ma la sottrazione (2^N -1) - |v| si limita a INVERTIRE tutti i bit della rappresentazione di |v|
+        - Infatti, ad esempio, su 8 bit:
+            -> 2^8-1 =          11111111
+            -> se |v| =         01110101 
+            -> (2^8-1) - |v| =  10001010
+Conclusione:
+per calcolare il numero negativo -|v|, la cui rappresentazione coincide con quella del positivo v’ = ((2^N -1) - |v|) + 1, occorre
+    • prima invertire tutti i bit della rappresentazione di |v| (calcolando così (2N -1) - |v|)
+    • poi aggiungere 1 al risultato
+-> ALGORITMO DI CALCOLO DEL COMPLEMENTO A DUE!!!
+
+ESEMPI ALGORITMO DI CALCOLO DEL COMPLEMENTO A DUE:
+    • v = -3
+        valore assoluto 3   ->  00000011
+        inversione dei bit  ->  11111100
+        somma con 1         ->  11111101
+    • v = -37
+        valore assoluto 37  ->  00100101
+        inversione dei bit  ->  11011010
+        somma con 1         ->  11011011
+
+CONVERSIONE STRINGA/NUMERO
+Importante: l'algoritmo funziona anche a rovescio! Prima sommo, poi inverto, infine valore assoluto
+    • stringa = 11111101
+        inversione dei bit      -> 00000010
+        somma con 1             -> 00000011
+        calcolo valore assoluto -> 3
+        11111101 vale quindi: -3
+    • stringa = 11011011
+        inversione dei bit      -> 00100100
+        somma con 1             -> 00100101
+        calcolo valore assoluto -> 37
+        11011011 vale quindi: -37
+
+OPERAZIONI SU NUMERI INTERI
+Rappresentazione in complemento a due rende possibile fare addizioni e sottrazioni con le usuali regole algebriche, sempre sommando. (sommando due negativi si avrà un 
+overflow che si ignora finchè il numero è rappresentabile: con 8 bit -> fino a -128 -> ignoro overflow tra -32 -21)
+
+OVERFLOW
+    • Avviene se si sommano due numeri positivi tali che il risultato e’ maggiore del massimo numero positivo rappresentabile con i bit fissati
+      (lo stesso per somma di due negativi)
+    • Per accoregersi di un overflow, basta guardare il bit di segno della risposta: se 0 (1) e i numeri sono entrambi negativi (positivi) -> overflow!
+
+Nella rappresentazione a complemento a 2, l’overflow può accadere solo in conseguenza di:
+    - Somma di due numeri positivi
+    - Somma di due numeri negativi
+L’overflow si verifica quando uno dei due ultimi bit di riporto è a uno, ma non lo sono entrambi (xor degli ultimi due bit di riporto)
