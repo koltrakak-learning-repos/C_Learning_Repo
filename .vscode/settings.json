@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.pl": "prolog",
         "limits.h": "c",
         "stdio.h": "c",
         "float.h": "c",
@@ -15,6 +16,10 @@
         "string": "c",
         "unordered_map": "c",
         "vector": "c",
-        "ostream": "c"
+        "ostream": "c",
+        "kr_alloc.h": "c",
+        "mman.h": "c",
+        "mman-linux.h": "c",
+        "mman-shared.h": "c"
     }
 }
