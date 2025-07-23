@@ -45,3 +45,20 @@ per non includere più volte gli stessi header file si utilizzano le seguenti gu
 
 In questo modo, per esempio, main e file che implementa la libreria dichiarata nell'header file possono includere entrambi quest'ultimo senza preoccuparsi 
 di star includendo più volte le stesse cose nel programma.
+
+
+PRAGMA ONCE
+Abbiamo già notato che if the same header file gets included more than once, you can end up with some nasty errors caused by redefining things like functions or structs.
+
+One simple solution is #pragma once. Adding this line to the top of a header file tells the compiler to include the file only once, even if it's referenced multiple times across your program.
+
+    // my_header.h
+    
+    #pragma once
+    
+    struct Point {
+        int x;
+        int y;
+    };
+
+It's quicker and less error-prone than traditional include guards, and it works well with most modern compilers.
