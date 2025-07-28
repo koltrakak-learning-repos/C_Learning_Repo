@@ -20,6 +20,8 @@
         "kr_alloc.h": "c",
         "mman.h": "c",
         "mman-linux.h": "c",
-        "mman-shared.h": "c"
+        "mman-shared.h": "c",
+        "stdbool.h": "c",
+        "stddef.h": "c"
     }
 }
