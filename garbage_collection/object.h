@@ -35,11 +35,16 @@ typedef union ObjectData {
 typedef struct Object {
     object_kind_t kind;
     object_data_t data;
+    int ref_count;
 } object_t;
 
 
 extern int obj_len(object_t *obj);
 extern object_t *obj_sum(object_t *a, object_t *b);
+extern object_t *_new_obj();
+extern void refcount_inc(object_t *obj);
+extern void refcount_dec(object_t *obj);
+extern void refcount_free(object_t *obj);
 
 extern object_t *new_integer(int value);
 extern object_t *new_float(float value);

@@ -3,6 +3,10 @@
 
 #include "object.h"
 
+object_t *array_get(object_t *arr_obj, size_t index);
+
+
+
 int obj_len(object_t *obj) {
     if (obj == NULL) {
         return -1;
@@ -29,9 +33,72 @@ int obj_len(object_t *obj) {
     }
 }
 
+object_t *_new_object() {
+    object_t *new_obj = (object_t *)calloc(1, sizeof(object_t));
+    if (new_obj == NULL) {
+        return NULL;
+    }
+    new_obj->ref_count = 1;
+    return new_obj;
+}
+
+void refcount_inc(object_t *obj) {
+    if(obj == NULL) {
+        return;
+    }
+    obj->ref_count++;
+}
+
+void refcount_dec(object_t *obj) {
+    if(obj == NULL) {
+        return;
+    }
+
+    obj->ref_count--;
+
+    if(obj->ref_count == 0) {
+        refcount_free(obj);
+    }
+}
+
+void refcount_free(object_t *obj) {
+    if(obj == NULL){
+        return;
+    }
+
+    switch(obj->kind) {
+        case INTEGER:
+        case FLOAT:
+            break;  
+
+        case STRING:
+            free(obj->data.v_string);
+            break;
+
+        case  VECTOR3:
+            refcount_dec(obj->data.v_vector3.x);
+            refcount_dec(obj->data.v_vector3.y);
+            refcount_dec(obj->data.v_vector3.z);
+            break;
+
+        case ARRAY:
+            for(int i=0; i<obj_len(obj); i++) {
+                refcount_dec(array_get(obj, i));
+            }
+            free(obj->data.v_array.elements);
+            break;
+
+        default:
+            //niente
+    }
+
+    free(obj);
+}
+
+
 
 object_t *new_integer(int value) {
-    object_t *new_int_obj = (object_t *)malloc(sizeof(object_t));
+    object_t *new_int_obj = _new_object(); 
     if (new_int_obj == NULL) {
         return NULL;
     }
@@ -43,7 +110,7 @@ object_t *new_integer(int value) {
 }
 
 object_t *new_float(float value) {
-    object_t *new_float_obj = (object_t *)malloc(sizeof(object_t));
+    object_t *new_float_obj = _new_object();
     if (new_float_obj == NULL) {
         return NULL;
     }
@@ -59,7 +126,7 @@ object_t *new_float(float value) {
 // Strings, however, are a different story. Strings in C are just arrays of characters, and because they can be any length, we need 
 // to dynamically allocate memory for the string data separately from the object itself.
 object_t *new_string(char *value) {
-    object_t *new_string_obj = (object_t *)malloc(sizeof(object_t));
+    object_t *new_string_obj = _new_object();
     if (new_string_obj == NULL) {
         return NULL;
     }
@@ -88,7 +155,7 @@ object_t *new_vector3(
         return NULL;
     }
 
-    object_t *new_vec3_obj = (object_t *)malloc(sizeof(object_t));
+    object_t *new_vec3_obj = _new_object();
     if (new_vec3_obj == NULL) {
         return NULL;
     }
@@ -100,11 +167,15 @@ object_t *new_vector3(
         .z = z,
     };
 
+    refcount_inc(x);
+    refcount_inc(y);
+    refcount_inc(z);
+
     return new_vec3_obj;    
 }
 
 object_t *new_array(size_t size) {
-    object_t *new_array_obj = (object_t *)malloc(sizeof(object_t));
+    object_t *new_array_obj = _new_object();
     if (new_array_obj == NULL) {
         return NULL;
     }
@@ -133,7 +204,13 @@ bool array_set(object_t *arr_obj, size_t index, object_t *value) {
         return false;
     }
 
+    // se sto sostituendo un elemento, decremento il suo refcount
+    if(arr_obj->data.v_array.elements[index] != NULL) {
+        refcount_dec(arr_obj->data.v_array.elements[index]);
+    }
+    refcount_inc(value);
     arr_obj->data.v_array.elements[index] = value;
+    
     return true;
 }
 
@@ -150,6 +227,8 @@ object_t *array_get(object_t *arr_obj, size_t index) {
 
     return arr_obj->data.v_array.elements[index];
 }
+
+
 
 
 
