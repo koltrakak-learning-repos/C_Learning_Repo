@@ -22,6 +22,7 @@
         "mman-linux.h": "c",
         "mman-shared.h": "c",
         "stdbool.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "vm_object.h": "c"
     }
 }

@@ -2,6 +2,8 @@
 #include <stdio.h>
 
 #include "object.h"
+#include "stack.h"
+#include "vm.h"
 
 void test_obj_creation() {
   printf("----------------- test_object_creation -----------------\n");
