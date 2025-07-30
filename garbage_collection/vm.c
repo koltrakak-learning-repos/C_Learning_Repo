@@ -2,6 +2,8 @@
 #include "stack.h"
 #include "vm_object.h"
 
+#include <stdio.h>
+
 vm_t *vm_new() {
     vm_t *new_vm = (vm_t *)malloc(sizeof(vm_t));
     if (new_vm == NULL) {
@@ -142,6 +144,29 @@ void trace(vm_t *vm) {
     stack_free(gray_objects);
 }
 
+static void print_what_is_being_freed(vm_object_t* obj) {
+    switch (obj->kind) {
+        case INTEGER:
+            printf("freeing an integer\n");
+            break;
+        case FLOAT:
+            printf("freeing a float\n");
+            break;
+
+        case STRING:
+            printf("freeing a string\n");
+            break;
+        case VECTOR3: {
+            printf("freeing a vector3\n");
+            break;
+        }
+        case ARRAY: {
+            printf("freeing an array");
+            break;
+        }
+    }
+}
+
 void sweep(vm_t *vm) {
     // itero su tutti gli oggetti e libero quelli non marchiati
     for (int i=0; i<vm->objects->count; i++) {
@@ -150,8 +175,10 @@ void sweep(vm_t *vm) {
             cur_obj->is_marked = false; // mi devo ricordare di resettare altrimenti rimane anche al prossimo ciclo di gc
         } 
         else {
+            print_what_is_being_freed(cur_obj);
             vm_object_free(cur_obj);
-            vm->objects->data[i] == NULL; // tolgo anche il dangling pointer dallo stack
+            printf("\toggetto liberato: %p\n", vm->objects->data[i]);
+            vm->objects->data[i] = NULL; // IMPORTANTE: tolgo anche il dangling pointer dallo stack
         }
     }
 

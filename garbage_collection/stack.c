@@ -46,6 +46,7 @@ void stack_remove_nulls(stack_t *stack) {
   // Iterate through the stack and compact non-NULL pointers.
   for (size_t i = 0; i < stack->count; ++i) {
     if (stack->data[i] != NULL) {
+      printf("\toggetto trovato: %p\n", stack->data[i]);
       stack->data[new_count++] = stack->data[i];
     }
   }

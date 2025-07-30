@@ -13,12 +13,12 @@ void simple_test() {
     
     // nothing should be collected because
     // we haven't freed the frame
+    printf("gc 1\n");
     vm_collect_garbage(vm);
-    printf("freed: %d\n", s == NULL);
 
     frame_free(vm_frame_pop(vm)); // libero il frame e la sua reference a s
+    printf("gc 2\n");
     vm_collect_garbage(vm);
-    printf("freed: %d\n", s == NULL);
 
     vm_free(vm);
 }

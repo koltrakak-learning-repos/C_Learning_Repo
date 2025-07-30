@@ -18,6 +18,6 @@ void vm_object_free(vm_object_t *obj) {
             break;
         }
     }
-  
+
     free(obj);
 }
