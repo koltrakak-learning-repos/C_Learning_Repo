@@ -10,7 +10,7 @@ vm_object_t *_new_vm_object(vm_t *vm) {
   if (obj == NULL) {
     return NULL;
   }
-
+  obj->is_marked = false;
   vm_track_object(vm, obj);
 
   return obj;

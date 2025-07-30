@@ -8,6 +8,7 @@ int main() {
     // test_obj_sum();
 
     /* test mark&sweep*/
+    simple_test();
 
     return 0;
 }
